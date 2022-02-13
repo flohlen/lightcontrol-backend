@@ -1,12 +1,48 @@
-import { Controller, Get } from '@nestjs/common';
+import { HttpService } from '@nestjs/axios';
+import { Body, Controller, Get, Logger, Param, Post } from '@nestjs/common';
 import { AppService } from './app.service';
+import Command from './modules/builder/command';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  private logger = new Logger(AppController.name);
+
+  constructor(
+    private readonly appService: AppService,
+    private httpsService: HttpService,
+  ) {}
 
   @Get()
   getHello(): string {
     return this.appService.getHello();
+  }
+
+  @Get('query/:key')
+  async getQuery(@Param('key') key: string): Promise<any> {
+    const result = await this.appService.getQuery(key);
+    this.logger.log('Result: GET query/' + key + ': ' + result);
+    return result;
+  }
+
+  @Get('status')
+  async getStatus(@Body() deviceId: string) {
+    try {
+      const result = await this.appService.getStatus(deviceId);
+      this.logger.log('Result: GET status of' + deviceId + ': ' + result);
+      return result;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  @Post('cmd')
+  async postCommand(@Body() command: Command) {
+    try {
+      const result = await this.appService.handleCommand(command);
+      this.logger.log('Result: POST cmd: ' + result);
+      return result;
+    } catch (error) {
+      return error;
+    }
   }
 }
