@@ -62,7 +62,7 @@ export class AppController {
   @MessagePattern('zigbee2mqtt/bridge/state')
   getBridgeState(@Payload() data: any, @Ctx() context: MqttContext) {
     console.log(
-      `Topic: ${context.getTopic()} with payload: ${
+      `\n Topic: ${context.getTopic()} with payload: ${
         context.getPacket().payload
       }`,
     );
@@ -71,7 +71,7 @@ export class AppController {
   @MessagePattern('zigbee2mqtt/bridge/devices')
   getBridgeDevices(@Payload() data: any, @Ctx() context: MqttContext) {
     console.log(
-      `Topic: ${context.getTopic()} with payload: ${
+      `\n Topic: ${context.getTopic()} with payload: ${
         context.getPacket().payload
       }`,
     );
@@ -80,7 +80,7 @@ export class AppController {
   @MessagePattern('zigbee2mqtt/bridge/groups')
   getBridgeGroups(@Payload() data: any, @Ctx() context: MqttContext) {
     console.log(
-      `Topic: ${context.getTopic()} with payload: ${
+      `\n Topic: ${context.getTopic()} with payload: ${
         context.getPacket().payload
       }`,
     );
@@ -89,7 +89,7 @@ export class AppController {
   @MessagePattern('zigbee2mqtt/bridge/event')
   getBridgeEvent(@Payload() data: any, @Ctx() context: MqttContext) {
     console.log(
-      `Topic: ${context.getTopic()} with payload: ${
+      `\n Topic: ${context.getTopic()} with payload: ${
         context.getPacket().payload
       }`,
     );
