@@ -1,5 +1,11 @@
 import { HttpService } from '@nestjs/axios';
 import { Body, Controller, Get, Logger, Param, Post } from '@nestjs/common';
+import {
+  Ctx,
+  MessagePattern,
+  MqttContext,
+  Payload,
+} from '@nestjs/microservices';
 import { AppService } from './app.service';
 import Command from './modules/builder/command';
 
@@ -11,6 +17,10 @@ export class AppController {
     private readonly appService: AppService,
     private httpsService: HttpService,
   ) {}
+
+  // ============================================
+  // HTTP
+  // ============================================
 
   @Get()
   getHello(): string {
@@ -44,5 +54,14 @@ export class AppController {
     } catch (error) {
       return error;
     }
+  }
+
+  // ============================================
+  // MQTT
+  // ============================================
+
+  @MessagePattern('test')
+  getNotifications(@Payload() data: number[], @Ctx() context: MqttContext) {
+    console.log(`Packet: ${context.getPacket()}`);
   }
 }
