@@ -23,7 +23,9 @@ export class BuilderService implements OnModuleInit {
   ) {}
 
   async onModuleInit() {
-    this.getDevices();
+    this.buildEventModel.deleteMany();
+    this.deviceModel.deleteMany();
+    this.userModel.deleteMany();
   }
 
   // ============================================
@@ -39,8 +41,8 @@ export class BuilderService implements OnModuleInit {
     return list;
   }
 
-  async getDevice(deviceId: string) {
-    const device = await this.deviceModel.find({ deviceId: deviceId }).exec();
+  async getDevice(id: string) {
+    const device = await this.deviceModel.find({ id: id }).exec();
     return device;
   }
 
@@ -116,12 +118,12 @@ export class BuilderService implements OnModuleInit {
       eventId: uuidv4(),
       eventType: 'deviceStatusUpdated',
       time: new Date().toISOString(),
-      tags: ['devices', device.deviceId],
+      tags: ['devices', device.id],
       payload: device,
     };
     this.storeEvent(event);
 
-    const filter = { deviceId: device.deviceId };
+    const filter = { id: device.id };
     return this.deviceModel
       .findOneAndUpdate(
         filter,
