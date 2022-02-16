@@ -1,7 +1,7 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { randomUUID } from 'crypto';
+import { v4 as uuidv4 } from 'uuid';
 import { Model } from 'mongoose';
 import { BuildEvent } from './build-event.schema';
 import { Device } from './device.schema';
@@ -61,7 +61,7 @@ export class BuilderService implements OnModuleInit {
 
   async storeDevice(device: Device) {
     const event = {
-      eventId: randomUUID.toString(),
+      eventId: uuidv4(),
       eventType: 'deviceStored',
       time: new Date().toISOString(),
       tags: ['devices', device.deviceId],
@@ -80,7 +80,7 @@ export class BuilderService implements OnModuleInit {
 
   async deleteDevice(device: Device) {
     const event = {
-      eventId: randomUUID.toString(),
+      eventId: uuidv4(),
       eventType: 'deviceDeleted',
       time: new Date().toISOString(),
       tags: ['devices', device.deviceId],
@@ -94,7 +94,7 @@ export class BuilderService implements OnModuleInit {
 
   async updateSettings(user: User) {
     const event = {
-      eventId: randomUUID.toString(),
+      eventId: uuidv4(),
       eventType: 'settingsUpdated',
       time: new Date().toISOString(),
       tags: ['settings', user.userId],
@@ -105,6 +105,25 @@ export class BuilderService implements OnModuleInit {
     const filter = { userId: user.userId };
     return this.userModel
       .findOneAndUpdate(filter, user, {
+        upsert: true,
+        new: true,
+      })
+      .exec();
+  }
+
+  async updateDeviceStatus(device: Device) {
+    const event = {
+      eventId: uuidv4(),
+      eventType: 'deviceStatusUpdated',
+      time: new Date().toISOString(),
+      tags: ['devices', device.deviceId],
+      payload: device,
+    };
+    this.storeEvent(event);
+
+    const filter = { deviceId: device.deviceId };
+    return this.deviceModel
+      .findOneAndUpdate(filter, device, {
         upsert: true,
         new: true,
       })

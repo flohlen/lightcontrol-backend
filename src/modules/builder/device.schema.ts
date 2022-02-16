@@ -14,6 +14,9 @@ export class Device {
 
   @Prop({ required: true })
   address: string;
+
+  @Prop()
+  status: string;
 }
 
 export const DeviceSchema = SchemaFactory.createForClass(Device);

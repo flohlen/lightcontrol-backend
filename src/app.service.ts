@@ -42,6 +42,9 @@ export class AppService {
     } else if (command.code === 'updateSettings') {
       this.modelBuilderService.updateSettings(command.parameters);
       return command;
+    } else if (command.code === 'updateDeviceStatus') {
+      this.modelBuilderService.updateDeviceStatus(command.parameters);
+      return command;
     } else {
       return `cannot handle ${command.code}`;
     }
