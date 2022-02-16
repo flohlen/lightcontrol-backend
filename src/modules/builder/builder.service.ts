@@ -26,6 +26,7 @@ export class BuilderService implements OnModuleInit {
     await this.buildEventModel.deleteMany();
     await this.deviceModel.deleteMany();
     await this.userModel.deleteMany();
+    console.log('database clear');
   }
 
   // ============================================
