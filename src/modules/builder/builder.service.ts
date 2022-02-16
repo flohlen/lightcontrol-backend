@@ -71,7 +71,7 @@ export class BuilderService implements OnModuleInit {
     };
     this.storeEvent(event);
 
-    const filter = { deviceId: device.id };
+    const filter = { id: device.id };
     return this.deviceModel
       .findOneAndUpdate(filter, device, {
         upsert: true,
@@ -90,7 +90,7 @@ export class BuilderService implements OnModuleInit {
     };
     this.storeEvent(event);
 
-    const filter = { deviceId: device.id };
+    const filter = { id: device.id };
     return this.deviceModel.deleteOne(filter).exec();
   }
 
