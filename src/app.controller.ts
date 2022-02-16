@@ -61,21 +61,21 @@ export class AppController {
   // ============================================
   @MessagePattern('zigbee2mqtt/bridge/state')
   getBridgeState(@Payload() data: any, @Ctx() context: MqttContext) {
-    console.log(`Packet: ${context.getTopic()}`);
+    console.log(`Topic: ${context.getTopic()}`);
   }
 
   @MessagePattern('zigbee2mqtt/bridge/devices')
   getBridgeDevices(@Payload() data: any, @Ctx() context: MqttContext) {
-    console.log(`Packet: ${context.getTopic()}`);
+    console.log(`Topic: ${context.getTopic()}`);
   }
 
   @MessagePattern('zigbee2mqtt/bridge/groups')
   getBridgeGroups(@Payload() data: any, @Ctx() context: MqttContext) {
-    console.log(`Packet: ${context.getTopic()}`);
+    console.log(`Topic: ${context.getTopic()}`);
   }
 
   @MessagePattern('zigbee2mqtt/bridge/event')
   getBridgeEvent(@Payload() data: any, @Ctx() context: MqttContext) {
-    console.log(`Packet: ${context.getTopic()}`);
+    console.log(`Topic: ${context.getTopic()}`);
   }
 }

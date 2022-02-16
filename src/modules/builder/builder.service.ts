@@ -23,9 +23,9 @@ export class BuilderService implements OnModuleInit {
   ) {}
 
   async onModuleInit() {
-    this.buildEventModel.deleteMany();
-    this.deviceModel.deleteMany();
-    this.userModel.deleteMany();
+    await this.buildEventModel.deleteMany();
+    await this.deviceModel.deleteMany();
+    await this.userModel.deleteMany();
   }
 
   // ============================================
