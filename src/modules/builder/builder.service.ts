@@ -64,12 +64,12 @@ export class BuilderService implements OnModuleInit {
       eventId: uuidv4(),
       eventType: 'deviceStored',
       time: new Date().toISOString(),
-      tags: ['devices', device.deviceId],
+      tags: ['devices', device.id],
       payload: device,
     };
     this.storeEvent(event);
 
-    const filter = { deviceId: device.deviceId };
+    const filter = { deviceId: device.id };
     return this.deviceModel
       .findOneAndUpdate(filter, device, {
         upsert: true,
@@ -83,12 +83,12 @@ export class BuilderService implements OnModuleInit {
       eventId: uuidv4(),
       eventType: 'deviceDeleted',
       time: new Date().toISOString(),
-      tags: ['devices', device.deviceId],
+      tags: ['devices', device.id],
       payload: device,
     };
     this.storeEvent(event);
 
-    const filter = { deviceId: device.deviceId };
+    const filter = { deviceId: device.id };
     return this.deviceModel.deleteOne(filter).exec();
   }
 
@@ -97,12 +97,12 @@ export class BuilderService implements OnModuleInit {
       eventId: uuidv4(),
       eventType: 'settingsUpdated',
       time: new Date().toISOString(),
-      tags: ['settings', user.userId],
+      tags: ['settings', user.id],
       payload: user,
     };
     this.storeEvent(event);
 
-    const filter = { userId: user.userId };
+    const filter = { userId: user.id };
     return this.userModel
       .findOneAndUpdate(filter, user, {
         upsert: true,

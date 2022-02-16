@@ -60,8 +60,8 @@ export class AppController {
   // MQTT
   // ============================================
 
-  @MessagePattern('test')
-  getNotifications(@Payload() data: number[], @Ctx() context: MqttContext) {
+  @MessagePattern('zigbee2mqtt/bridge/state')
+  getNotifications(@Payload() data: any, @Ctx() context: MqttContext) {
     console.log(`Packet: ${context.getPacket()}`);
   }
 }
