@@ -104,7 +104,7 @@ export class BuilderService implements OnModuleInit {
     };
     this.storeEvent(event);
 
-    const filter = { userId: user.id };
+    const filter = { id: user.id };
     return this.userModel
       .findOneAndUpdate(filter, user, {
         upsert: true,
