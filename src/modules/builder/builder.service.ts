@@ -111,7 +111,7 @@ export class BuilderService implements OnModuleInit {
       .exec();
   }
 
-  async updateDeviceStatus(device: Device) {
+  async updateDeviceStatus(device: any) {
     const event = {
       eventId: uuidv4(),
       eventType: 'deviceStatusUpdated',
@@ -123,10 +123,16 @@ export class BuilderService implements OnModuleInit {
 
     const filter = { deviceId: device.deviceId };
     return this.deviceModel
-      .findOneAndUpdate(filter, device, {
-        upsert: true,
-        new: true,
-      })
+      .findOneAndUpdate(
+        filter,
+        {
+          status: device.status,
+        },
+        {
+          upsert: true,
+          new: true,
+        },
+      )
       .exec();
   }
 }
