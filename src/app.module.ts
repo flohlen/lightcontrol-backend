@@ -16,7 +16,7 @@ import { MqttClientModule } from './modules/mqtt-client/mqtt-client.module';
     BuilderModule,
     ClientsModule.register([
       {
-        name: 'MQ_Client',
+        name: 'MQTT_Client',
         transport: Transport.MQTT,
         options: {
           url: 'mqtt://localhost:1883',

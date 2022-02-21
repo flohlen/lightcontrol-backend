@@ -1,4 +1,3 @@
-import { HttpService } from '@nestjs/axios';
 import { Body, Controller, Get, Logger, Param, Post } from '@nestjs/common';
 import {
   Ctx,
@@ -13,10 +12,7 @@ import Command from './modules/builder/command';
 export class AppController {
   private logger = new Logger(AppController.name);
 
-  constructor(
-    private readonly appService: AppService,
-    private httpsService: HttpService,
-  ) {}
+  constructor(private readonly appService: AppService) {}
 
   // ============================================
   // HTTP
@@ -59,39 +55,80 @@ export class AppController {
   // ============================================
   // MQTT
   // ============================================
+
+  @MessagePattern('zigbee2mqtt/bridge/info')
+  getBridgeInfo(@Payload() data: any, @Ctx() context: MqttContext) {
+    try {
+      this.appService.handleBridgeInfoTopic(
+        context.getTopic(),
+        context.getPacket().payload(),
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   @MessagePattern('zigbee2mqtt/bridge/state')
   getBridgeState(@Payload() data: any, @Ctx() context: MqttContext) {
-    console.log(
-      `\n Topic: ${context.getTopic()} with payload: ${
-        context.getPacket().payload
-      }`,
-    );
+    try {
+      this.appService.handleBridgeStateTopic(
+        context.getTopic(),
+        context.getPacket().payload(),
+      );
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   @MessagePattern('zigbee2mqtt/bridge/devices')
   getBridgeDevices(@Payload() data: any, @Ctx() context: MqttContext) {
-    console.log(
-      `\n Topic: ${context.getTopic()} with payload: ${
-        context.getPacket().payload
-      }`,
-    );
+    try {
+      this.appService.handleBridgeDevicesTopic(
+        context.getTopic(),
+        context.getPacket().payload(),
+      );
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  @MessagePattern('zigbee2mqtt/bridge/groups')
-  getBridgeGroups(@Payload() data: any, @Ctx() context: MqttContext) {
-    console.log(
-      `\n Topic: ${context.getTopic()} with payload: ${
-        context.getPacket().payload
-      }`,
-    );
-  }
+  // @MessagePattern('zigbee2mqtt/bridge/groups')
+  // getBridgeGroups(@Payload() data: any, @Ctx() context: MqttContext) {
+  // }
 
   @MessagePattern('zigbee2mqtt/bridge/event')
   getBridgeEvent(@Payload() data: any, @Ctx() context: MqttContext) {
-    console.log(
-      `\n Topic: ${context.getTopic()} with payload: ${
-        context.getPacket().payload
-      }`,
-    );
+    try {
+      this.appService.handleBridgeEventTopic(
+        context.getTopic(),
+        context.getPacket().payload(),
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  @MessagePattern('zigbee2mqtt/+')
+  getDeviceAll(@Payload() data: any, @Ctx() context: MqttContext) {
+    try {
+      this.appService.handleDeviceTopic(
+        context.getTopic(),
+        context.getPacket().payload(),
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  @MessagePattern('zigbee2mqtt/+/availability')
+  getDeviceAvailability(@Payload() data: any, @Ctx() context: MqttContext) {
+    try {
+      this.appService.handleDeviceAvailabilityTopic(
+        context.getTopic(),
+        context.getPacket().payload(),
+      );
+    } catch (error) {
+      console.log(error);
+    }
   }
 }

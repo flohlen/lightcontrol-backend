@@ -37,18 +37,18 @@ export class BuilderService implements OnModuleInit {
     return list;
   }
 
-  async getDevices() {
+  async getDevices(): Promise<Device[]> {
     const list = this.deviceModel.find({}).exec();
     return list;
   }
 
-  async getDevice(id: string) {
-    const device = await this.deviceModel.find({ id: id }).exec();
+  async getDevice(id: string): Promise<Device> {
+    const device = await this.deviceModel.findOne({ id: id }).exec();
     return device;
   }
 
-  async getUserSettings() {
-    const user = await this.userModel.find().exec();
+  async getUserSettings(): Promise<User> {
+    const user = await this.userModel.findOne({}).exec();
     return user;
   }
 
@@ -62,7 +62,7 @@ export class BuilderService implements OnModuleInit {
       .exec();
   }
 
-  async storeDevice(device: Device) {
+  async storeDevice(device: Device): Promise<Device> {
     const event = {
       eventId: uuidv4(),
       eventType: 'deviceStored',
@@ -81,10 +81,10 @@ export class BuilderService implements OnModuleInit {
       .exec();
   }
 
-  async deleteDevice(device: Device) {
+  async removeDevice(device: Device): Promise<Device> {
     const event = {
       eventId: uuidv4(),
-      eventType: 'deviceDeleted',
+      eventType: 'deviceRemoved',
       time: new Date().toISOString(),
       tags: ['devices', device.id],
       payload: device,
@@ -92,7 +92,7 @@ export class BuilderService implements OnModuleInit {
     this.storeEvent(event);
 
     const filter = { id: device.id };
-    return this.deviceModel.deleteOne(filter).exec();
+    return this.deviceModel.findOneAndDelete(filter).exec();
   }
 
   async updateSettings(user: User) {
@@ -114,10 +114,10 @@ export class BuilderService implements OnModuleInit {
       .exec();
   }
 
-  async updateDeviceStatus(device: any) {
+  async updateDeviceState(device: any): Promise<Device> {
     const event = {
       eventId: uuidv4(),
-      eventType: 'deviceStatusUpdated',
+      eventType: 'deviceStateUpdated',
       time: new Date().toISOString(),
       tags: ['devices', device.id],
       payload: device,
@@ -129,7 +129,7 @@ export class BuilderService implements OnModuleInit {
       .findOneAndUpdate(
         filter,
         {
-          status: device.status,
+          state: device.state,
         },
         {
           upsert: true,
@@ -137,5 +137,95 @@ export class BuilderService implements OnModuleInit {
         },
       )
       .exec();
+  }
+
+  async updateDeviceValues(device: any): Promise<Device> {
+    const event = {
+      eventId: uuidv4(),
+      eventType: 'deviceValuesUpdated',
+      time: new Date().toISOString(),
+      tags: ['devices', device.id],
+      payload: device,
+    };
+    this.storeEvent(event);
+
+    const filter = { id: device.id };
+    return this.deviceModel
+      .findOneAndUpdate(
+        filter,
+        {
+          brightness: device.brightness,
+          color_temp: device.color_temp,
+        },
+        {
+          upsert: true,
+          new: true,
+        },
+      )
+      .exec();
+  }
+
+  async enablePermitJoin(device: any): Promise<Device> {
+    const event = {
+      eventId: uuidv4(),
+      eventType: 'enablePermitJoin',
+      time: new Date().toISOString(),
+      tags: ['bridge', device.id],
+      payload: device,
+    };
+    this.storeEvent(event);
+
+    const filter = { id: device.id };
+    return this.deviceModel
+      .findOneAndUpdate(
+        filter,
+        {
+          permit_join: true,
+        },
+        {
+          upsert: true,
+          new: true,
+        },
+      )
+      .exec();
+  }
+
+  async disablePermitJoin(device: any): Promise<Device> {
+    const event = {
+      eventId: uuidv4(),
+      eventType: 'disablePermitJoin',
+      time: new Date().toISOString(),
+      tags: ['bridge', device.id],
+      payload: device,
+    };
+    this.storeEvent(event);
+
+    const filter = { id: device.id };
+    return this.deviceModel
+      .findOneAndUpdate(
+        filter,
+        {
+          permit_join: false,
+        },
+        {
+          upsert: true,
+          new: true,
+        },
+      )
+      .exec();
+  }
+
+  async restartCoordinator(device: any): Promise<Device> {
+    const event = {
+      eventId: uuidv4(),
+      eventType: 'restartCoordinator',
+      time: new Date().toISOString(),
+      tags: ['bridge', device.id],
+      payload: device,
+    };
+    this.storeEvent(event);
+
+    const filter = { id: device.id };
+    return this.deviceModel.findOne(filter).exec();
   }
 }
