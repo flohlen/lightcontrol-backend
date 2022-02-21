@@ -59,10 +59,7 @@ export class AppController {
   @MessagePattern('zigbee2mqtt/bridge/info')
   getBridgeInfo(@Payload() data: any, @Ctx() context: MqttContext) {
     try {
-      this.appService.handleBridgeInfoTopic(
-        context.getTopic(),
-        context.getPacket().payload(),
-      );
+      this.appService.handleBridgeInfoTopic(context.getTopic(), data);
     } catch (error) {
       console.log(error);
     }
@@ -71,10 +68,7 @@ export class AppController {
   @MessagePattern('zigbee2mqtt/bridge/state')
   getBridgeState(@Payload() data: any, @Ctx() context: MqttContext) {
     try {
-      this.appService.handleBridgeStateTopic(
-        context.getTopic(),
-        context.getPacket().payload(),
-      );
+      this.appService.handleBridgeStateTopic(context.getTopic(), data);
     } catch (error) {
       console.log(error);
     }
@@ -83,10 +77,7 @@ export class AppController {
   @MessagePattern('zigbee2mqtt/bridge/devices')
   getBridgeDevices(@Payload() data: any, @Ctx() context: MqttContext) {
     try {
-      this.appService.handleBridgeDevicesTopic(
-        context.getTopic(),
-        context.getPacket().payload(),
-      );
+      this.appService.handleBridgeDevicesTopic(context.getTopic(), data);
     } catch (error) {
       console.log(error);
     }
@@ -99,10 +90,7 @@ export class AppController {
   @MessagePattern('zigbee2mqtt/bridge/event')
   getBridgeEvent(@Payload() data: any, @Ctx() context: MqttContext) {
     try {
-      this.appService.handleBridgeEventTopic(
-        context.getTopic(),
-        context.getPacket().payload(),
-      );
+      this.appService.handleBridgeEventTopic(context.getTopic(), data);
     } catch (error) {
       console.log(error);
     }
@@ -111,10 +99,7 @@ export class AppController {
   @MessagePattern('zigbee2mqtt/+')
   getDeviceAll(@Payload() data: any, @Ctx() context: MqttContext) {
     try {
-      this.appService.handleDeviceTopic(
-        context.getTopic(),
-        context.getPacket().payload(),
-      );
+      this.appService.handleDeviceTopic(context.getTopic(), data);
     } catch (error) {
       console.log(error);
     }
@@ -123,10 +108,7 @@ export class AppController {
   @MessagePattern('zigbee2mqtt/+/availability')
   getDeviceAvailability(@Payload() data: any, @Ctx() context: MqttContext) {
     try {
-      this.appService.handleDeviceAvailabilityTopic(
-        context.getTopic(),
-        context.getPacket().payload(),
-      );
+      this.appService.handleDeviceAvailabilityTopic(context.getTopic(), data);
     } catch (error) {
       console.log(error);
     }
