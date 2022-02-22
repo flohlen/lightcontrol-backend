@@ -40,10 +40,14 @@ export class MqttClientService implements OnModuleInit {
   }
 
   async enablePermitJoin(device: Device, parameters: any) {
-    const topic = 'zigbee2mqtt/bridge/request/permit_join';
+    // const topic = 'zigbee2mqtt/bridge/request/permit_join';
+    // const payload = {
+    //   value: true,
+    //   time: parameters.timer,
+    // };
+    const topic = 'zigbee1mqtt/0x804b50fffe67a4d8/set';
     const payload = {
-      value: true,
-      time: parameters.timer,
+      brightness: 200,
     };
 
     this.publish(topic, payload);
@@ -59,12 +63,8 @@ export class MqttClientService implements OnModuleInit {
   }
 
   async restartCoordinator(device: Device, parameters: any) {
-    //const topic = 'zigbee2mqtt/bridge/request/restart';
-    //const payload = {};
-    const topic = 'zigbee1mqtt/0x804b50fffe67a4d8/set';
-    const payload = {
-      brightness: 200,
-    };
+    const topic = 'zigbee2mqtt/bridge/request/restart';
+    const payload = {};
 
     this.publish(topic, payload);
   }
