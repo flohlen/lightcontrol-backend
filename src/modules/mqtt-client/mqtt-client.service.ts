@@ -5,10 +5,9 @@ import * as mqtt from 'mqtt';
 
 @Injectable()
 export class MqttClientService implements OnModuleInit {
-  constructor(
-    private readonly modelBuilderService: BuilderService,
-    private mqttClient: mqtt.MqttClient,
-  ) {}
+  constructor(private readonly modelBuilderService: BuilderService) {}
+
+  private mqttClient: mqtt.MqttClient;
 
   onModuleInit() {
     this.mqttClient = mqtt.connect('mqtt:localhost:1883');
