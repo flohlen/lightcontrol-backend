@@ -39,28 +39,28 @@ export class AppService {
   async handleCommand(command: Command) {
     if (command.code === 'storeDevice') {
       this.modelBuilderService.storeDevice(command.parameters);
-      return command;
+      return command.code;
     } else if (command.code === 'removeDevice') {
       const device = await this.modelBuilderService.removeDevice(
         command.parameters,
       );
       this.mqttClientService.removeDevice(device, command.parameters);
-      return command;
+      return command.code;
     } else if (command.code === 'updateSettings') {
       this.modelBuilderService.updateSettings(command.parameters);
-      return command;
+      return command.code;
     } else if (command.code === 'updateDeviceState') {
       const device = await this.modelBuilderService.updateDeviceState(
         command.parameters,
       );
       this.mqttClientService.updateDeviceState(device, command.parameters);
-      return command;
+      return command.code;
     } else if (command.code === 'startBrightnessMove') {
       const device = await this.modelBuilderService.getDevice(
         command.parameters.id,
       );
       this.mqttClientService.startBrightnessMove(device, command.parameters);
-      return command;
+      return command.code;
     } else if (command.code === 'startColorTemperatureMove') {
       const device = await this.modelBuilderService.getDevice(
         command.parameters.id,
@@ -69,13 +69,13 @@ export class AppService {
         device,
         command.parameters,
       );
-      return command;
+      return command.code;
     } else if (command.code === 'stopBrightnessMove') {
       const device = await this.modelBuilderService.getDevice(
         command.parameters.id,
       );
       this.mqttClientService.stopBrightnessMove(device, command.parameters);
-      return command;
+      return command.code;
     } else if (command.code === 'stopColorTemperatureMove') {
       const device = await this.modelBuilderService.getDevice(
         command.parameters.id,
@@ -84,31 +84,31 @@ export class AppService {
         device,
         command.parameters,
       );
-      return command;
+      return command.code;
     } else if (command.code === 'updateDeviceValues') {
       const device = await this.modelBuilderService.updateDeviceValues(
         command.parameters,
       );
       this.mqttClientService.updateDeviceValues(device, command.parameters);
-      return command;
+      return command.code;
     } else if (command.code === 'enablePermitJoin') {
       const device = await this.modelBuilderService.enablePermitJoin(
         command.parameters,
       );
       this.mqttClientService.enablePermitJoin(device, command.parameters);
-      return command;
+      return command.code;
     } else if (command.code === 'disablePermitJoin') {
       const device = await this.modelBuilderService.disablePermitJoin(
         command.parameters,
       );
       this.mqttClientService.disablePermitJoin(device, command.parameters);
-      return command;
+      return command.code;
     } else if (command.code === 'restartCoordinator') {
       const device = await this.modelBuilderService.restartCoordinator(
         command.parameters,
       );
       this.mqttClientService.restartCoordinator(device, command.parameters);
-      return command;
+      return command.code;
     } else {
       return `cannot handle ${command.code}`;
     }
