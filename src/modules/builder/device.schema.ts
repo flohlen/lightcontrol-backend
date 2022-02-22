@@ -50,6 +50,12 @@ export class Device {
 
   @Prop()
   permit_join: boolean;
+
+  @Prop()
+  update: any;
+
+  @Prop()
+  color_mode: string;
 }
 
 export const DeviceSchema = SchemaFactory.createForClass(Device);

@@ -118,19 +118,20 @@ export class AppService {
   // MQTT
   // ============================================
   handleBridgeInfoTopic(topic: string, payload: any) {
-    console.log(payload);
-    this.mqttClientService.handleBridgeInfo(payload);
+    console.log('\n' + topic + ' : ' + JSON.stringify(payload));
+    this.modelBuilderService.updateBridgeInfo(payload);
   }
 
   handleBridgeStateTopic(topic: string, payload: any) {
-    console.log(payload);
-    // update database
-    this.mqttClientService.handleBridgeState(payload);
+    console.log('\n' + topic + ' : ' + JSON.stringify(payload));
+    this.modelBuilderService.updateBridgeState(payload);
   }
 
   handleBridgeDevicesTopic(topic: string, payload: any) {
-    console.log(payload);
-    this.mqttClientService.handleBridgeDevices(payload);
+    console.log('\n' + topic + ' : ' + JSON.stringify(payload));
+    for (const device of payload) {
+      this.modelBuilderService.storeDevice(device);
+    }
   }
 
   handleBridgeEventTopic(topic: string, payload: any) {
@@ -138,9 +139,9 @@ export class AppService {
   }
 
   handleDeviceTopic(topic: string, payload: any) {
-    console.log(payload);
-    const deviceId = null;
-    this.mqttClientService.handleDevice(deviceId, payload);
+    console.log('\n' + topic + ' : ' + JSON.stringify(payload));
+    const device_id = topic.substring('zigbee2mqtt'.length);
+    this.modelBuilderService.updateDevice(device_id, payload);
   }
 
   handleDeviceAvailabilityTopic(topic: string, payload: any) {

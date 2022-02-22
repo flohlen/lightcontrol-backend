@@ -62,22 +62,79 @@ export class BuilderService implements OnModuleInit {
       .exec();
   }
 
-  async storeDevice(device: Device): Promise<Device> {
-    const event = {
-      eventId: uuidv4(),
-      eventType: 'deviceStored',
-      time: new Date().toISOString(),
-      tags: ['devices', device.id],
-      payload: device,
-    };
-    this.storeEvent(event);
-
-    const filter = { id: device.id };
+  async updateDevice(friendly_name: string, payload: any) {
+    const filter = { friendly_name: friendly_name };
     return this.deviceModel
-      .findOneAndUpdate(filter, device, {
+      .findOneAndUpdate(filter, payload, {
         upsert: true,
         new: true,
       })
+      .exec();
+  }
+
+  // ============================================
+  // BRIDGE
+  // ============================================
+  async updateBridgeState(data: any) {
+    const filter = { id: 'bridge' };
+    return this.deviceModel.findOneAndUpdate(
+      filter,
+      {
+        state: data.state,
+      },
+      { upsert: true, new: true },
+    );
+  }
+
+  async updateBridgeInfo(data: any) {
+    const filter = { id: 'bridge' };
+    return this.deviceModel.findOneAndUpdate(
+      filter,
+      {
+        permit_join: data.permit_join,
+      },
+      { upsert: true, new: true },
+    );
+  }
+
+  async storeCoordinator(data: any) {
+    const filter = { friendly_name: data.friendly_name };
+    return this.deviceModel
+      .findOneAndUpdate(
+        filter,
+        {
+          id: data.ieee_address,
+          friendly_name: data.friendly_name,
+          address: data.ieee_address,
+          type: data.type,
+        },
+        {
+          upsert: true,
+          new: true,
+        },
+      )
+      .exec();
+  }
+
+  async storeDevice(data: any) {
+    const filter = { friendly_name: data.friendly_name };
+    return this.deviceModel
+      .findOneAndUpdate(
+        filter,
+        {
+          id: data.ieee_address,
+          friendly_name: data.friendly_name,
+          address: data.ieee_address,
+          type: data.type,
+          description: data.definition.description,
+          model: data.definition.model,
+          vendor: data.definition.vendor,
+        },
+        {
+          upsert: true,
+          new: true,
+        },
+      )
       .exec();
   }
 
