@@ -130,7 +130,11 @@ export class AppService {
   handleBridgeDevicesTopic(topic: string, payload: any) {
     console.log('\n' + topic + ' : ' + JSON.stringify(payload));
     for (const device of payload) {
-      this.modelBuilderService.storeDevice(device);
+      if (device.type === 'Coordinator') {
+        this.modelBuilderService.storeCoordinator(device);
+      } else {
+        this.modelBuilderService.storeDevice(device);
+      }
     }
   }
 
