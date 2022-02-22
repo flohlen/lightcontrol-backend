@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { BuilderService } from './modules/builder/builder.service';
-import Command from './modules/builder/command';
+import Command from './modules/builder/schemas/command';
 import { MqttClientService } from './modules/mqtt-client/mqtt-client.service';
 
 @Injectable()
@@ -50,10 +50,7 @@ export class AppService {
       this.modelBuilderService.updateSettings(command.parameters);
       return command.code;
     } else if (command.code === 'updateDeviceState') {
-      const device = await this.modelBuilderService.updateDeviceState(
-        command.parameters,
-      );
-      this.mqttClientService.updateDeviceState(device, command.parameters);
+      this.mqttClientService.updateDeviceState(command.parameters);
       return command.code;
     } else if (command.code === 'startBrightnessMove') {
       const device = await this.modelBuilderService.getDevice(
@@ -108,6 +105,9 @@ export class AppService {
         command.parameters,
       );
       this.mqttClientService.restartCoordinator(device, command.parameters);
+      return command.code;
+    } else if (command.code === 'executeEffect') {
+      //this.mqttClientService.executeEffect(command.parameters);
       return command.code;
     } else {
       return `cannot handle ${command.code}`;

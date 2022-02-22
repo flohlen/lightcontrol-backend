@@ -2,10 +2,10 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { v4 as uuidv4 } from 'uuid';
-import { Model } from 'mongoose';
-import { BuildEvent } from './build-event.schema';
-import { Device } from './device.schema';
-import { User } from './user.schema';
+import { Model, STATES } from 'mongoose';
+import { BuildEvent } from './schemas/build-event.schema';
+import { Device } from './schemas/device.schema';
+import { User } from './schemas/user.schema';
 
 @Injectable()
 export class BuilderService implements OnModuleInit {
@@ -65,10 +65,18 @@ export class BuilderService implements OnModuleInit {
   async updateDevice(friendly_name: string, payload: any) {
     const filter = { friendly_name: friendly_name };
     return this.deviceModel
-      .findOneAndUpdate(filter, payload, {
-        upsert: true,
-        new: true,
-      })
+      .findOneAndUpdate(
+        filter,
+        {
+          brightness: payload.brightness,
+          color_temp: payload.color_temp,
+          state: payload.state,
+        },
+        {
+          upsert: true,
+          new: true,
+        },
+      )
       .exec();
   }
 
@@ -80,6 +88,7 @@ export class BuilderService implements OnModuleInit {
     return this.deviceModel.findOneAndUpdate(
       filter,
       {
+        id: 'bridge',
         state: data.state,
       },
       { upsert: true, new: true },
@@ -128,9 +137,6 @@ export class BuilderService implements OnModuleInit {
           friendly_name: data.friendly_name,
           address: data.ieee_address,
           type: data.type,
-          description: data.definition.description,
-          model: data.definition.model,
-          vendor: data.definition.vendor,
         },
         {
           upsert: true,
@@ -234,7 +240,7 @@ export class BuilderService implements OnModuleInit {
     };
     this.storeEvent(event);
 
-    const filter = { id: device.id };
+    const filter = { id: 'bridge' };
     return this.deviceModel
       .findOneAndUpdate(
         filter,
@@ -259,7 +265,7 @@ export class BuilderService implements OnModuleInit {
     };
     this.storeEvent(event);
 
-    const filter = { id: device.id };
+    const filter = { id: 'bridge' };
     return this.deviceModel
       .findOneAndUpdate(
         filter,

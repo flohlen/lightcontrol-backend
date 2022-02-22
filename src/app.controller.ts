@@ -6,7 +6,7 @@ import {
   Payload,
 } from '@nestjs/microservices';
 import { AppService } from './app.service';
-import Command from './modules/builder/command';
+import Command from './modules/builder/schemas/command';
 
 @Controller()
 export class AppController {

@@ -1,6 +1,6 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { BuilderService } from '../builder/builder.service';
-import { Device } from '../builder/device.schema';
+import { Device } from '../builder/schemas/device.schema';
 import * as mqtt from 'mqtt';
 
 @Injectable()
@@ -55,9 +55,9 @@ export class MqttClientService implements OnModuleInit {
     this.publish(topic, payload);
   }
 
-  async updateDeviceState(device: Device, parameters: any) {
-    const address =
-      device.friendly_name != null ? device.friendly_name : device.address;
+  async updateDeviceState(parameters: any) {
+    const address = parameters.address;
+    // device.friendly_name != null ? device.friendly_name : device.address;
 
     const topic = 'zigbee2mqtt/' + address + '/set';
     const payload = {
