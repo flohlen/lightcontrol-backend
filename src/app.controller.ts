@@ -113,13 +113,4 @@ export class AppController {
       console.log(error);
     }
   }
-
-  @MessagePattern('zigbee2mqtt/bubatz')
-  bubatz(@Payload() data: any, @Ctx() context: MqttContext) {
-    try {
-      this.appService.bubatz(context.getTopic(), data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
 }

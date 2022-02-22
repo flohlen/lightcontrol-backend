@@ -59,8 +59,12 @@ export class MqttClientService implements OnModuleInit {
   }
 
   async restartCoordinator(device: Device, parameters: any) {
-    const topic = 'zigbee2mqtt/bridge/request/restart';
-    const payload = {};
+    //const topic = 'zigbee2mqtt/bridge/request/restart';
+    //const payload = {};
+    const topic = 'zigbee1mqtt/0x804b50fffe67a4d8/set';
+    const payload = {
+      brightness: 200,
+    };
 
     this.publish(topic, payload);
   }
@@ -147,12 +151,6 @@ export class MqttClientService implements OnModuleInit {
     };
 
     this.publish(topic, payload);
-  }
-
-  async bubatz(payload: any) {
-    this.publish('zigbee2mqtt/' + payload.device_address + '/set', {
-      brightness: payload.brightness,
-    });
   }
 
   async publish(topic: string, payload: any) {

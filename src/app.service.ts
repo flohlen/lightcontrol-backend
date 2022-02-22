@@ -149,8 +149,4 @@ export class AppService {
     const deviceId = null;
     this.mqttClientService.handleDeviceAvailability(deviceId, payload);
   }
-
-  bubatz(topic: string, payload: any) {
-    this.mqttClientService.bubatz(payload);
-  }
 }
