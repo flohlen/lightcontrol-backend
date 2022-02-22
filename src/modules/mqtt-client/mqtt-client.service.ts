@@ -146,14 +146,15 @@ export class MqttClientService implements OnModuleInit {
   }
 
   async publish(topic: string, payload: any) {
-    const response = this.client.publish(topic, "{'brightness':200}");
-    console.log(
-      '\n' +
-        topic +
-        ' | ' +
-        JSON.stringify(payload) +
-        ' | ' +
-        JSON.stringify(response),
-    );
+    // const response =
+    this.client.publish(topic, JSON.stringify(payload), console.log);
+    // console.log(
+    //   '\n' +
+    //     topic +
+    //     ' | ' +
+    //     JSON.stringify(payload) +
+    //     ' | ' +
+    //     JSON.stringify(response),
+    // );
   }
 }
