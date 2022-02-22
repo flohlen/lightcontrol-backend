@@ -96,16 +96,19 @@ export class AppService {
         command.parameters,
       );
       this.mqttClientService.enablePermitJoin(device, command.parameters);
+      return command;
     } else if (command.code === 'disablePermitJoin') {
       const device = await this.modelBuilderService.disablePermitJoin(
         command.parameters,
       );
       this.mqttClientService.disablePermitJoin(device, command.parameters);
+      return command;
     } else if (command.code === 'restartCoordinator') {
       const device = await this.modelBuilderService.restartCoordinator(
         command.parameters,
       );
       this.mqttClientService.restartCoordinator(device, command.parameters);
+      return command;
     } else {
       return `cannot handle ${command.code}`;
     }
