@@ -10,15 +10,12 @@ export class MqttClientService implements OnModuleInit {
 
     @Inject('MQTT_Client')
     private client: ClientProxy,
-  ) {}
-
-  onModuleInit() {
-    try {
-      this.client.connect();
-    } catch (error) {
-      console.error(error);
-    }
+  ) {
+    this.client.connect();
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  onModuleInit() {}
 
   handleBridgeInfo(payload: any) {
     throw new Error('Method not implemented.');

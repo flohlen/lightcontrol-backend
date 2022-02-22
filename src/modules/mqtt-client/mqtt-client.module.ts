@@ -4,19 +4,7 @@ import { BuilderModule } from '../builder/builder.module';
 import { MqttClientService } from './mqtt-client.service';
 
 @Module({
-  imports: [
-    BuilderModule,
-    ClientsModule.register([
-      {
-        name: 'MQTT_Client',
-        transport: Transport.MQTT,
-        options: {
-          url: 'mqtt://localhost:1883',
-        },
-      },
-    ]),
-    MqttClientModule,
-  ],
+  imports: [BuilderModule, MqttClientModule],
   providers: [MqttClientService],
   exports: [MqttClientService],
 })
