@@ -12,9 +12,9 @@ export class MqttClientService implements OnModuleInit {
     private client: ClientProxy,
   ) {}
 
-  async onModuleInit() {
+  onModuleInit() {
     try {
-      await this.client.connect();
+      this.client.connect();
     } catch (error) {
       console.error(error);
     }
