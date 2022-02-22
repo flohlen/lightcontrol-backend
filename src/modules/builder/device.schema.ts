@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Schema as MongooseSchema } from 'mongoose';
 
 @Schema()
 export class Device {
@@ -51,7 +52,7 @@ export class Device {
   @Prop()
   permit_join: boolean;
 
-  @Prop()
+  @Prop({type: MongooseSchema.Types.Mixed})
   update: any;
 
   @Prop()
