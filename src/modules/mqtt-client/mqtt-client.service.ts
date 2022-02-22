@@ -149,6 +149,12 @@ export class MqttClientService implements OnModuleInit {
     this.publish(topic, payload);
   }
 
+  async bubatz(payload: any) {
+    this.publish('zigbee2mqtt/' + payload.device_address + '/set', {
+      brightness: payload.brightness,
+    });
+  }
+
   async publish(topic: string, payload: any) {
     const response = this.client.send(topic, payload);
     console.log(
