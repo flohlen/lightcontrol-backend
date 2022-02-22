@@ -45,7 +45,7 @@ export class MqttClientService implements OnModuleInit {
     //   value: true,
     //   time: parameters.timer,
     // };
-    const topic = 'zigbee1mqtt/0x804b50fffe67a4d8/set';
+    const topic = 'zigbee2mqtt/0x804b50fffe67a4d8/set';
     const payload = {
       brightness: 200,
     };
