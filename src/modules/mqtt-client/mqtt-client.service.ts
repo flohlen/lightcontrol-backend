@@ -1,18 +1,13 @@
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
-import { ClientProxy } from '@nestjs/microservices';
 import { BuilderService } from '../builder/builder.service';
 import { Device } from '../builder/device.schema';
+import * as mqtt from 'mqtt';
 
 @Injectable()
 export class MqttClientService implements OnModuleInit {
-  constructor(
-    private readonly modelBuilderService: BuilderService,
+  constructor(private readonly modelBuilderService: BuilderService) {}
 
-    @Inject('MQTT_Client')
-    private client: ClientProxy,
-  ) {
-    this.client.connect();
-  }
+  client = mqtt.connect('mqtt:localhost:1883');
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   onModuleInit() {}
@@ -151,7 +146,7 @@ export class MqttClientService implements OnModuleInit {
   }
 
   async publish(topic: string, payload: any) {
-    const response = this.client.send<any, any>(topic, payload);
+    const response = this.client.publish(topic, payload);
     console.log(
       '\n' +
         topic +
@@ -159,16 +154,6 @@ export class MqttClientService implements OnModuleInit {
         JSON.stringify(payload) +
         ' | ' +
         JSON.stringify(response),
-    );
-
-    const response2 = this.client.emit<any, any>(topic, payload);
-    console.log(
-      '\n' +
-        topic +
-        ' | ' +
-        JSON.stringify(payload) +
-        ' | ' +
-        JSON.stringify(response2),
     );
   }
 }
