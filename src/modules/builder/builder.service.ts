@@ -104,6 +104,7 @@ export class BuilderService implements OnModuleInit {
         filter,
         {
           id: data.ieee_address,
+          name: 'Coordinator',
           friendly_name: data.friendly_name,
           address: data.ieee_address,
           type: data.type,
@@ -123,6 +124,7 @@ export class BuilderService implements OnModuleInit {
         filter,
         {
           id: data.ieee_address,
+          name: data.definition.model,
           friendly_name: data.friendly_name,
           address: data.ieee_address,
           type: data.type,
