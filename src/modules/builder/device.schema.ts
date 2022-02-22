@@ -3,16 +3,16 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 @Schema()
 export class Device {
-  @Prop({ required: true })
+  @Prop()
   id: string;
 
-  @Prop({ required: true })
+  @Prop()
   name: string;
 
-  @Prop({ required: true })
+  @Prop()
   type: string;
 
-  @Prop({ required: true })
+  @Prop()
   address: string;
 
   @Prop()
