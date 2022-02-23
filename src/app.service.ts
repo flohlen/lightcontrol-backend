@@ -53,52 +53,25 @@ export class AppService {
       this.mqttClientService.updateDeviceState(command.parameters);
       return command.code;
     } else if (command.code === 'startBrightnessMove') {
-      const device = await this.modelBuilderService.getDevice(
-        command.parameters.id,
-      );
-      this.mqttClientService.startBrightnessMove(device, command.parameters);
+      this.mqttClientService.startBrightnessMove(command.parameters);
       return command.code;
     } else if (command.code === 'startColorTemperatureMove') {
-      const device = await this.modelBuilderService.getDevice(
-        command.parameters.id,
-      );
-      this.mqttClientService.startColorTemperatureMove(
-        device,
-        command.parameters,
-      );
+      this.mqttClientService.startColorTemperatureMove(command.parameters);
       return command.code;
     } else if (command.code === 'stopBrightnessMove') {
-      const device = await this.modelBuilderService.getDevice(
-        command.parameters.id,
-      );
-      this.mqttClientService.stopBrightnessMove(device, command.parameters);
+      this.mqttClientService.stopBrightnessMove(command.parameters);
       return command.code;
     } else if (command.code === 'stopColorTemperatureMove') {
-      const device = await this.modelBuilderService.getDevice(
-        command.parameters.id,
-      );
-      this.mqttClientService.stopColorTemperatureMove(
-        device,
-        command.parameters,
-      );
+      this.mqttClientService.stopColorTemperatureMove(command.parameters);
       return command.code;
     } else if (command.code === 'updateDeviceValues') {
-      const device = await this.modelBuilderService.updateDeviceValues(
-        command.parameters,
-      );
-      this.mqttClientService.updateDeviceValues(device, command.parameters);
+      this.mqttClientService.updateDeviceValues(command.parameters);
       return command.code;
     } else if (command.code === 'enablePermitJoin') {
-      const device = await this.modelBuilderService.enablePermitJoin(
-        command.parameters,
-      );
-      this.mqttClientService.enablePermitJoin(device, command.parameters);
+      this.mqttClientService.enablePermitJoin(command.parameters);
       return command.code;
     } else if (command.code === 'disablePermitJoin') {
-      const device = await this.modelBuilderService.disablePermitJoin(
-        command.parameters,
-      );
-      this.mqttClientService.disablePermitJoin(device, command.parameters);
+      this.mqttClientService.disablePermitJoin();
       return command.code;
     } else if (command.code === 'restartCoordinator') {
       const device = await this.modelBuilderService.restartCoordinator(
@@ -107,7 +80,7 @@ export class AppService {
       this.mqttClientService.restartCoordinator(device, command.parameters);
       return command.code;
     } else if (command.code === 'executeEffect') {
-      //this.mqttClientService.executeEffect(command.parameters);
+      this.mqttClientService.executeEffect(command.parameters);
       return command.code;
     } else {
       return `cannot handle ${command.code}`;
@@ -144,7 +117,7 @@ export class AppService {
 
   handleDeviceTopic(topic: string, payload: any) {
     console.log('\n' + topic + ' : ' + JSON.stringify(payload));
-    const device_id = topic.substring('zigbee2mqtt'.length);
+    const device_id = topic.substring('zigbee2mqtt/'.length);
     this.modelBuilderService.updateDevice(device_id, payload);
   }
 

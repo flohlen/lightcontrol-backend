@@ -2,7 +2,7 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { v4 as uuidv4 } from 'uuid';
-import { Model, STATES } from 'mongoose';
+import { Model } from 'mongoose';
 import { BuildEvent } from './schemas/build-event.schema';
 import { Device } from './schemas/device.schema';
 import { User } from './schemas/user.schema';
@@ -88,7 +88,6 @@ export class BuilderService implements OnModuleInit {
     return this.deviceModel.findOneAndUpdate(
       filter,
       {
-        id: 'bridge',
         state: data.state,
       },
       { upsert: true, new: true },
@@ -101,6 +100,8 @@ export class BuilderService implements OnModuleInit {
       filter,
       {
         permit_join: data.permit_join,
+        friendly_name: 'bridge',
+        address: 'bridge',
       },
       { upsert: true, new: true },
     );

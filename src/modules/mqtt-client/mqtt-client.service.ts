@@ -20,7 +20,7 @@ export class MqttClientService implements OnModuleInit {
     throw new Error('Method not implemented.');
   }
 
-  async enablePermitJoin(device: Device, parameters: any) {
+  async enablePermitJoin(parameters: any) {
     const topic = 'zigbee2mqtt/bridge/request/permit_join';
     const payload = {
       value: true,
@@ -30,7 +30,7 @@ export class MqttClientService implements OnModuleInit {
     this.publish(topic, payload);
   }
 
-  async disablePermitJoin(device: Device, parameters: any) {
+  async disablePermitJoin() {
     const topic = 'zigbee2mqtt/bridge/request/permit_join';
     const payload = {
       value: false,
@@ -57,7 +57,6 @@ export class MqttClientService implements OnModuleInit {
 
   async updateDeviceState(parameters: any) {
     const address = parameters.address;
-    // device.friendly_name != null ? device.friendly_name : device.address;
 
     const topic = 'zigbee2mqtt/' + address + '/set';
     const payload = {
@@ -67,10 +66,9 @@ export class MqttClientService implements OnModuleInit {
     this.publish(topic, payload);
   }
 
-  async startBrightnessMove(device: Device, parameters: any) {
+  async startBrightnessMove(parameters: any) {
     const direction = parameters.direction;
-    const address =
-      device.friendly_name != null ? device.friendly_name : device.address;
+    const address = parameters.address;
 
     const topic = 'zigbee2mqtt/' + address + '/set';
     const payload = {
@@ -80,9 +78,8 @@ export class MqttClientService implements OnModuleInit {
     this.publish(topic, payload);
   }
 
-  async stopBrightnessMove(device: Device, parameters: any) {
-    const address =
-      device.friendly_name != null ? device.friendly_name : device.address;
+  async stopBrightnessMove(parameters: any) {
+    const address = parameters.address;
 
     const topic = 'zigbee2mqtt/' + address + '/set';
     const payload = {
@@ -92,10 +89,9 @@ export class MqttClientService implements OnModuleInit {
     this.publish(topic, payload);
   }
 
-  async startColorTemperatureMove(device: Device, parameters: any) {
+  async startColorTemperatureMove(parameters: any) {
     const direction = parameters.direction;
-    const address =
-      device.friendly_name != null ? device.friendly_name : device.address;
+    const address = parameters.address;
 
     const topic = 'zigbee2mqtt/' + address + '/set';
     const payload = {
@@ -105,21 +101,19 @@ export class MqttClientService implements OnModuleInit {
     this.publish(topic, payload);
   }
 
-  async stopColorTemperatureMove(device: Device, parameters: any) {
-    const address =
-      device.friendly_name != null ? device.friendly_name : device.address;
+  async stopColorTemperatureMove(parameters: any) {
+    const address = parameters.address;
 
     const topic = 'zigbee2mqtt/' + address + '/set';
     const payload = {
-      brightness_move: 0,
+      color_temp_move: 0,
     };
 
     this.publish(topic, payload);
   }
 
-  async updateDeviceValues(device: Device, parameters: any) {
-    const address =
-      device.friendly_name != null ? device.friendly_name : device.address;
+  async updateDeviceValues(parameters: any) {
+    const address = parameters.addess;
 
     const topic = 'zigbee2mqtt/' + address + '/set';
     const payload = {
@@ -130,15 +124,18 @@ export class MqttClientService implements OnModuleInit {
     this.publish(topic, payload);
   }
 
-  async publish(topic: string, payload: any) {
-    this.mqttClient.publish(
-      topic,
-      JSON.stringify(payload),
-      this.handleResponse,
-    );
+  async executeEffect(parameters: any) {
+    const address = parameters.address;
+
+    const topic = 'zigbee2mqtt/' + address + '/set';
+    const payload = {
+      effect: parameters.effect,
+    };
+
+    this.publish(topic, payload);
   }
 
-  async handleResponse(response: any) {
-    console.log('RESPONSE:' + response);
+  async publish(topic: string, payload: any) {
+    this.mqttClient.publish(topic, JSON.stringify(payload));
   }
 }
