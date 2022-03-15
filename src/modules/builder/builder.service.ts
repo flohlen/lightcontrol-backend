@@ -134,7 +134,7 @@ export class BuilderService implements OnModuleInit {
         filter,
         {
           id: data.ieee_address,
-          name: data.definition.model,
+          name: data.name,
           friendly_name: data.friendly_name,
           address: data.ieee_address,
           type: data.type,
