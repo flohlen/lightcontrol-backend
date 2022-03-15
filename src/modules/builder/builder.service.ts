@@ -23,10 +23,10 @@ export class BuilderService implements OnModuleInit {
   ) {}
 
   async onModuleInit() {
-    await this.buildEventModel.deleteMany();
-    await this.deviceModel.deleteMany();
-    await this.userModel.deleteMany();
-    console.log('database clear');
+    // await this.buildEventModel.deleteMany();
+    // await this.deviceModel.deleteMany();
+    // await this.userModel.deleteMany();
+    // console.log('database clear');
   }
 
   // ============================================
