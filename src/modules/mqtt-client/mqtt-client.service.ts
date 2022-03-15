@@ -96,7 +96,8 @@ export class MqttClientService implements OnModuleInit {
 
     const topic = 'zigbee2mqtt/' + address + '/set';
     const payload = {
-      color_temp_move: direction === 'up' ? 40 : direction === 'down' ? -40 : 0,
+      color_temp_move:
+        direction === 'warm' ? 40 : direction === 'cool' ? -40 : 0,
     };
 
     this.publish(topic, payload);
