@@ -39,17 +39,17 @@ export class MqttClientService implements OnModuleInit {
     this.publish(topic, payload);
   }
 
-  async restartCoordinator(device: Device, parameters: any) {
+  async restartCoordinator(parameters: any) {
     const topic = 'zigbee2mqtt/bridge/request/restart';
     const payload = {};
 
     this.publish(topic, payload);
   }
 
-  async removeDevice(device: Device, parameters: any) {
+  async removeDevice(parameters: any) {
     const topic = 'zigbee2mqtt/bridge/request/device/remove';
     const payload = {
-      id: device.address,
+      id: parameters.address,
     };
 
     this.publish(topic, payload);
@@ -72,7 +72,8 @@ export class MqttClientService implements OnModuleInit {
 
     const topic = 'zigbee2mqtt/' + address + '/set';
     const payload = {
-      brightness_move: direction === 'up' ? 40 : direction === 'down' ? -40 : 0,
+      brightness_move_onoff:
+        direction === 'up' ? 40 : direction === 'down' ? -40 : 0,
     };
 
     this.publish(topic, payload);
@@ -83,7 +84,7 @@ export class MqttClientService implements OnModuleInit {
 
     const topic = 'zigbee2mqtt/' + address + '/set';
     const payload = {
-      brightness_move: 0,
+      brightness_move_onoff: 0,
     };
 
     this.publish(topic, payload);

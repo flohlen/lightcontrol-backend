@@ -44,7 +44,7 @@ export class AppService {
       const device = await this.modelBuilderService.removeDevice(
         command.parameters,
       );
-      this.mqttClientService.removeDevice(device, command.parameters);
+      this.mqttClientService.removeDevice(command.parameters);
       return command.code;
     } else if (command.code === 'updateSettings') {
       this.modelBuilderService.updateSettings(command.parameters);
@@ -77,7 +77,7 @@ export class AppService {
       const device = await this.modelBuilderService.restartCoordinator(
         command.parameters,
       );
-      this.mqttClientService.restartCoordinator(device, command.parameters);
+      this.mqttClientService.restartCoordinator(command.parameters);
       return command.code;
     } else if (command.code === 'executeEffect') {
       this.mqttClientService.executeEffect(command.parameters);
