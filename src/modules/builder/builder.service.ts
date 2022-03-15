@@ -63,6 +63,15 @@ export class BuilderService implements OnModuleInit {
   }
 
   async updateDevice(friendly_name: string, payload: any) {
+    const event = {
+      eventId: uuidv4(),
+      eventType: 'updateDevice',
+      time: new Date().toISOString(),
+      tags: ['devices', friendly_name],
+      payload: payload,
+    };
+    this.storeEvent(event);
+
     const filter = { friendly_name: friendly_name };
     return this.deviceModel
       .findOneAndUpdate(
@@ -84,6 +93,15 @@ export class BuilderService implements OnModuleInit {
   // BRIDGE
   // ============================================
   async updateBridgeState(data: any) {
+    const event = {
+      eventId: uuidv4(),
+      eventType: 'updateBridgeState',
+      time: new Date().toISOString(),
+      tags: ['bridge', data.id],
+      payload: data,
+    };
+    this.storeEvent(event);
+
     const filter = { id: 'bridge' };
     return this.deviceModel.findOneAndUpdate(
       filter,
@@ -108,6 +126,15 @@ export class BuilderService implements OnModuleInit {
   }
 
   async storeCoordinator(data: any) {
+    const event = {
+      eventId: uuidv4(),
+      eventType: 'storeCoordinator',
+      time: new Date().toISOString(),
+      tags: ['coordinator', data.id],
+      payload: data,
+    };
+    this.storeEvent(event);
+
     const filter = { friendly_name: data.friendly_name };
     return this.deviceModel
       .findOneAndUpdate(
@@ -128,6 +155,15 @@ export class BuilderService implements OnModuleInit {
   }
 
   async storeDevice(data: any) {
+    const event = {
+      eventId: uuidv4(),
+      eventType: 'storeDevice',
+      time: new Date().toISOString(),
+      tags: ['devices', data.id],
+      payload: data,
+    };
+    this.storeEvent(event);
+
     const filter = { id: data.id };
     return this.deviceModel
       .findOneAndUpdate(
