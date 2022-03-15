@@ -128,7 +128,7 @@ export class BuilderService implements OnModuleInit {
   }
 
   async storeDevice(data: any) {
-    const filter = { friendly_name: data.friendly_name };
+    const filter = { id: data.id };
     return this.deviceModel
       .findOneAndUpdate(
         filter,
