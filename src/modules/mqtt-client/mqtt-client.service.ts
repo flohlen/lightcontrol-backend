@@ -90,6 +90,7 @@ export class MqttClientService implements OnModuleInit {
   }
 
   async startColorTemperatureMove(parameters: any) {
+    console.log(parameters.direction + ' | ' + parameters.address);
     const direction = parameters.direction;
     const address = parameters.address;
 
@@ -113,7 +114,7 @@ export class MqttClientService implements OnModuleInit {
   }
 
   async updateDeviceValues(parameters: any) {
-    const address = parameters.addess;
+    const address = parameters.address;
 
     const topic = 'zigbee2mqtt/' + address + '/set';
     const payload = {
